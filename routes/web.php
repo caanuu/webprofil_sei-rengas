@@ -28,6 +28,10 @@ Route::get('/pengaduan', [PengaduanController::class, 'create'])->name('pengadua
 Route::post('/pengaduan', [PengaduanController::class, 'store'])->name('pengaduan.store');
 Route::get('/pengaduan/tracking', [PengaduanController::class, 'tracking'])->name('pengaduan.tracking');
 
+Route::get('/', function () {
+    return view('welcome');
+});
+
 // ==========================================
 // AUTH ROUTES
 // ==========================================
