@@ -1,0 +1,13 @@
+[phases.install]
+cmds = [
+  "rm -rf node_modules package-lock.json",
+  "npm install --include=optional"
+]
+
+[phases.build]
+cmds = [
+  "npm run build"
+]
+
+[start]
+cmd = "php -S 0.0.0.0:$PORT -t public"
