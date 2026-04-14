@@ -5,10 +5,11 @@
 @section('content')
 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
     <form action="{{ route('admin.informasi.index') }}" method="GET" class="flex gap-3">
-        <select name="kategori" class="form-input w-40" onchange="this.form.submit()">
+        <select name="kategori" class="form-input w-48" onchange="this.form.submit()">
             <option value="">Semua</option>
-            <option value="layanan" {{ request('kategori') == 'layanan' ? 'selected' : '' }}>Layanan</option>
-            <option value="pengumuman" {{ request('kategori') == 'pengumuman' ? 'selected' : '' }}>Pengumuman</option>
+            @foreach(\App\Models\InformasiPublik::select('kategori')->distinct()->pluck('kategori') as $kat)
+                <option value="{{ $kat }}" {{ request('kategori') == $kat ? 'selected' : '' }}>{{ ucfirst($kat) }}</option>
+            @endforeach
         </select>
     </form>
     <a href="{{ route('admin.informasi.create') }}" class="btn btn-primary">

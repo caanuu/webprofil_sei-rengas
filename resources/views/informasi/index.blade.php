@@ -15,36 +15,56 @@
 
 <section class="py-12 bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {{-- Category Tabs --}}
+        {{-- Dynamic Category Tabs --}}
         <div class="flex flex-wrap gap-3 mb-10">
             <a href="{{ route('informasi.index') }}"
                class="px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-300 {{ $kategori === 'semua' ? 'bg-blue-900 text-white shadow-lg' : 'bg-white text-slate-600 hover:bg-blue-50 shadow' }}">
-                Semua ({{ $layananCount + $pengumumanCount }})
+                Semua ({{ $totalCount }})
             </a>
-            <a href="{{ route('informasi.index', ['kategori' => 'layanan']) }}"
-               class="px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-300 {{ $kategori === 'layanan' ? 'bg-blue-900 text-white shadow-lg' : 'bg-white text-slate-600 hover:bg-blue-50 shadow' }}">
-                <i class="fas fa-file-alt mr-1"></i> Layanan ({{ $layananCount }})
-            </a>
-            <a href="{{ route('informasi.index', ['kategori' => 'pengumuman']) }}"
-               class="px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-300 {{ $kategori === 'pengumuman' ? 'bg-amber-500 text-white shadow-lg' : 'bg-white text-slate-600 hover:bg-amber-50 shadow' }}">
-                <i class="fas fa-bullhorn mr-1"></i> Pengumuman ({{ $pengumumanCount }})
-            </a>
+            @foreach($kategoriList as $kat => $count)
+                @php
+                    $icons = [
+                        'layanan' => 'fa-file-alt',
+                        'pengumuman' => 'fa-bullhorn',
+                    ];
+                    $colors = [
+                        'layanan' => ['bg-blue-900 text-white shadow-lg', 'bg-white text-slate-600 hover:bg-blue-50 shadow', 'from-blue-500 to-blue-700', 'text-blue-600'],
+                        'pengumuman' => ['bg-amber-500 text-white shadow-lg', 'bg-white text-slate-600 hover:bg-amber-50 shadow', 'from-amber-500 to-amber-700', 'text-amber-600'],
+                    ];
+                    $icon = $icons[$kat] ?? 'fa-folder';
+                    $activeClass = $colors[$kat][0] ?? 'bg-emerald-600 text-white shadow-lg';
+                    $inactiveClass = $colors[$kat][1] ?? 'bg-white text-slate-600 hover:bg-emerald-50 shadow';
+                @endphp
+                <a href="{{ route('informasi.index', ['kategori' => $kat]) }}"
+                   class="px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-300 {{ $kategori === $kat ? $activeClass : $inactiveClass }}">
+                    <i class="fas {{ $icon }} mr-1"></i> {{ ucfirst($kat) }} ({{ $count }})
+                </a>
+            @endforeach
         </div>
 
         {{-- Informasi List --}}
         @if($informasi->count() > 0)
             <div class="space-y-6">
                 @foreach($informasi as $item)
-                    <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover" x-data="{ open: false }">
+                    @php
+                        $itemColors = [
+                            'layanan' => ['from-blue-500 to-blue-700', 'fa-file-alt', 'text-blue-600'],
+                            'pengumuman' => ['from-amber-500 to-amber-700', 'fa-bullhorn', 'text-amber-600'],
+                        ];
+                        $gradient = $itemColors[$item->kategori][0] ?? 'from-emerald-500 to-emerald-700';
+                        $itemIcon = $itemColors[$item->kategori][1] ?? 'fa-folder';
+                        $textColor = $itemColors[$item->kategori][2] ?? 'text-emerald-600';
+                    @endphp
+                    <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
                         <button onclick="this.parentElement.querySelector('.info-content').classList.toggle('hidden'); this.querySelector('.chevron').classList.toggle('rotate-180')"
                                 class="w-full flex items-center justify-between p-6 text-left hover:bg-slate-50 transition">
                             <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg {{ $item->kategori === 'layanan' ? 'bg-gradient-to-br from-blue-500 to-blue-700' : 'bg-gradient-to-br from-amber-500 to-amber-700' }}">
-                                    <i class="fas {{ $item->kategori === 'layanan' ? 'fa-file-alt' : 'fa-bullhorn' }} text-white"></i>
+                                <div class="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg bg-gradient-to-br {{ $gradient }}">
+                                    <i class="fas {{ $itemIcon }} text-white"></i>
                                 </div>
                                 <div>
                                     <h3 class="text-lg font-bold text-slate-800">{{ $item->judul }}</h3>
-                                    <span class="text-xs font-medium {{ $item->kategori === 'layanan' ? 'text-blue-600' : 'text-amber-600' }}">{{ ucfirst($item->kategori) }}</span>
+                                    <span class="text-xs font-medium {{ $textColor }}">{{ ucfirst($item->kategori) }}</span>
                                 </div>
                             </div>
                             <i class="fas fa-chevron-down chevron text-slate-400 transition-transform duration-300"></i>

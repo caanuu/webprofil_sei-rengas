@@ -88,13 +88,8 @@
                 <div class="bg-white rounded-2xl p-8 lg:p-12 shadow-lg">
                     <div class="flex flex-col md:flex-row gap-8 items-start">
                         <div class="md:w-48 flex-shrink-0 text-center">
-                            @if($lurah && $lurah->foto)
-                                @php
-                                    $sambutanFoto = file_exists(public_path('storage/struktur/' . $lurah->foto))
-                                        ? asset('storage/struktur/' . $lurah->foto)
-                                        : asset('storage/' . $lurah->foto);
-                                @endphp
-                                <img src="{{ $sambutanFoto }}" alt="{{ $profil['nama_lurah'] ?? '' }}" class="w-32 h-32 rounded-2xl object-cover mx-auto mb-4 shadow-xl border-2 border-amber-200">
+                            @if(!empty($profil['foto_lurah']))
+                                <img src="{{ asset('storage/' . $profil['foto_lurah']) }}" alt="{{ $profil['nama_lurah'] ?? '' }}" class="w-32 h-32 rounded-2xl object-cover mx-auto mb-4 shadow-xl border-2 border-amber-200">
                             @else
                                 <div class="w-32 h-32 bg-gradient-to-br from-amber-400 to-amber-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl">
                                     <i class="fas fa-user-tie text-white text-4xl"></i>
@@ -157,9 +152,18 @@
             @if($sekretarisLurah)
             <div class="flex justify-center mb-10 animate-on-scroll delay-100">
                 <div class="bg-white border-2 border-blue-100 rounded-3xl p-8 shadow-lg w-full max-w-xl text-center hover:shadow-xl transition-shadow duration-300">
-                    <div class="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
-                        <i class="fas fa-user-edit text-white text-xl"></i>
-                    </div>
+                    @if($sekretarisLurah->foto)
+                        @php
+                            $sekFoto = file_exists(public_path('storage/struktur/' . $sekretarisLurah->foto))
+                                ? asset('storage/struktur/' . $sekretarisLurah->foto)
+                                : asset('storage/' . $sekretarisLurah->foto);
+                        @endphp
+                        <img src="{{ $sekFoto }}" alt="{{ $sekretarisLurah->nama }}" class="w-20 h-20 rounded-full object-cover mx-auto mb-4 shadow-xl border-4 border-blue-100">
+                    @else
+                        <div class="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                            <i class="fas fa-user-edit text-white text-xl"></i>
+                        </div>
+                    @endif
                     <span class="text-blue-600 text-xs font-bold tracking-wider uppercase">{{ $sekretarisLurah->jabatan }}</span>
                     <h3 class="text-lg font-bold text-slate-900 mt-2">{{ $sekretarisLurah->nama }}</h3>
                     @if($sekretarisLurah->nip)<p class="text-slate-400 text-sm mt-1">NIP. {{ $sekretarisLurah->nip }}</p>@endif
@@ -176,9 +180,18 @@
             <div class="grid md:grid-cols-3 gap-6 mb-10 animate-on-scroll delay-200">
                 @foreach($staff as $i => $s)
                 <div class="bg-white border-2 border-slate-100 rounded-3xl p-6 text-center shadow-lg hover:shadow-xl transition-shadow duration-300 group">
-                    <div class="w-14 h-14 bg-gradient-to-br {{ $staffColors[$i % count($staffColors)] }} rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                        <i class="fas {{ $staffIcons[$i % count($staffIcons)] }} text-white text-lg"></i>
-                    </div>
+                    @if($s->foto)
+                        @php
+                            $staffFoto = file_exists(public_path('storage/struktur/' . $s->foto))
+                                ? asset('storage/struktur/' . $s->foto)
+                                : asset('storage/' . $s->foto);
+                        @endphp
+                        <img src="{{ $staffFoto }}" alt="{{ $s->nama }}" class="w-16 h-16 rounded-full object-cover mx-auto mb-4 shadow-lg border-2 border-slate-100 group-hover:scale-110 transition-transform duration-300">
+                    @else
+                        <div class="w-14 h-14 bg-gradient-to-br {{ $staffColors[$i % count($staffColors)] }} rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas {{ $staffIcons[$i % count($staffIcons)] }} text-white text-lg"></i>
+                        </div>
+                    @endif
                     <span class="{{ $staffTextColors[$i % count($staffTextColors)] }} text-xs font-bold tracking-wider uppercase">{{ $s->jabatan }}</span>
                     <h3 class="text-base font-bold text-slate-900 mt-2">{{ $s->nama }}</h3>
                     @if($s->nip)<p class="text-slate-400 text-xs mt-1">NIP. {{ $s->nip }}</p>@endif
@@ -197,9 +210,18 @@
             <div class="grid md:grid-cols-3 gap-6 mb-14 animate-on-scroll delay-300">
                 @foreach($kasi as $i => $k)
                 <div class="bg-gradient-to-br {{ $kasiGradients[$i % count($kasiGradients)] }} rounded-3xl p-6 text-white text-center shadow-lg hover:scale-[1.02] transition-transform duration-300">
-                    <div class="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                        <i class="fas {{ $kasiIcons[$i % count($kasiIcons)] }} text-white text-lg"></i>
-                    </div>
+                    @if($k->foto)
+                        @php
+                            $kasiFoto = file_exists(public_path('storage/struktur/' . $k->foto))
+                                ? asset('storage/struktur/' . $k->foto)
+                                : asset('storage/' . $k->foto);
+                        @endphp
+                        <img src="{{ $kasiFoto }}" alt="{{ $k->nama }}" class="w-16 h-16 rounded-full object-cover mx-auto mb-4 shadow-lg border-2 border-white/30">
+                    @else
+                        <div class="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas {{ $kasiIcons[$i % count($kasiIcons)] }} text-white text-lg"></i>
+                        </div>
+                    @endif
                     <span class="{{ $kasiTextColors[$i % count($kasiTextColors)] }} text-xs font-bold tracking-wider uppercase">{{ $k->jabatan }}</span>
                     <h3 class="text-base font-bold mt-2">{{ $k->nama }}</h3>
                     @if($k->nip)<p class="{{ $kasiNipColors[$i % count($kasiNipColors)] }} text-xs mt-1">NIP. {{ $k->nip }}</p>@endif
@@ -226,6 +248,18 @@
                         <span class="text-white font-bold text-sm">{{ $kpl->jabatan }}</span>
                     </div>
                     <div class="p-4 text-center">
+                        @if($kpl->foto)
+                            @php
+                                $kplFoto = file_exists(public_path('storage/struktur/' . $kpl->foto))
+                                    ? asset('storage/struktur/' . $kpl->foto)
+                                    : asset('storage/' . $kpl->foto);
+                            @endphp
+                            <img src="{{ $kplFoto }}" alt="{{ $kpl->nama }}" class="w-14 h-14 rounded-full object-cover mx-auto mb-3 shadow-md border-2 border-slate-100">
+                        @else
+                            <div class="w-12 h-12 bg-gradient-to-br {{ $kepGradients[$i % count($kepGradients)] }} rounded-full flex items-center justify-center mx-auto mb-3 opacity-20">
+                                <i class="fas fa-user text-white text-lg"></i>
+                            </div>
+                        @endif
                         <h5 class="font-bold text-slate-800 text-sm leading-tight mb-2">{{ $kpl->nama }}</h5>
                         @if($kpl->no_hp)
                         <div class="flex items-center justify-center gap-1.5 text-xs text-slate-500">

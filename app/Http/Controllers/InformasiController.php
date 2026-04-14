@@ -13,16 +13,22 @@ class InformasiController extends Controller
 
         $query = InformasiPublik::active()->orderBy('urutan');
 
-        if ($kategori === 'layanan') {
-            $query->layanan();
-        } elseif ($kategori === 'pengumuman') {
-            $query->pengumuman();
+        if ($kategori !== 'semua') {
+            $query->where('kategori', $kategori);
         }
 
         $informasi = $query->get();
-        $layananCount = InformasiPublik::active()->layanan()->count();
-        $pengumumanCount = InformasiPublik::active()->pengumuman()->count();
 
-        return view('informasi.index', compact('informasi', 'kategori', 'layananCount', 'pengumumanCount'));
+        // Get all distinct categories with counts
+        $kategoriList = InformasiPublik::active()
+            ->selectRaw('kategori, COUNT(*) as total')
+            ->groupBy('kategori')
+            ->orderBy('kategori')
+            ->pluck('total', 'kategori')
+            ->toArray();
+
+        $totalCount = array_sum($kategoriList);
+
+        return view('informasi.index', compact('informasi', 'kategori', 'kategoriList', 'totalCount'));
     }
 }

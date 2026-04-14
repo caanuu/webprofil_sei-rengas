@@ -38,6 +38,36 @@
             {{-- Informasi Umum --}}
             <div>
                 <h3 class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4 flex items-center gap-2">
+                    <span class="w-8 h-0.5 bg-amber-400"></span> Foto Lurah
+                </h3>
+                <p class="text-xs text-slate-400 mb-4">Foto ini akan ditampilkan di halaman beranda (hero section & sambutan) dan halaman profil.</p>
+                <div class="flex items-center gap-6">
+                    <div class="shrink-0 text-center">
+                        @if(!empty($profil['foto_lurah']))
+                            <img src="{{ asset('storage/' . $profil['foto_lurah']) }}" alt="Foto Lurah" class="w-28 h-28 rounded-full object-cover border-4 border-amber-200 shadow-lg" id="fotoLurahPreview">
+                            <form action="{{ route('admin.profil.delete-foto-lurah') }}" method="POST" class="mt-2" onsubmit="return confirm('Yakin ingin menghapus foto Lurah?')">
+                                @csrf @method('DELETE')
+                                <button type="submit" class="text-xs text-red-500 hover:text-red-700 font-medium transition"><i class="fas fa-trash-alt mr-1"></i>Hapus Foto</button>
+                            </form>
+                        @else
+                            <div class="w-28 h-28 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center shadow-lg" id="fotoLurahPlaceholder">
+                                <i class="fas fa-user-tie text-white text-4xl"></i>
+                            </div>
+                            <img src="" alt="Foto Lurah" class="w-28 h-28 rounded-full object-cover border-4 border-amber-200 shadow-lg hidden" id="fotoLurahPreview">
+                        @endif
+                    </div>
+                    <div class="flex-1">
+                        <label class="form-label">Upload Foto Lurah</label>
+                        <input type="file" name="foto_lurah" accept="image/*" class="form-input text-sm" onchange="previewFotoLurah(this)">
+                        <p class="text-xs text-slate-400 mt-1">Format: JPG, PNG, WEBP. Maks: 2MB. Disarankan foto ukuran 1:1 (persegi).</p>
+                        @error('foto_lurah')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                    </div>
+                </div>
+            </div>
+
+            {{-- Informasi Umum --}}
+            <div>
+                <h3 class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4 flex items-center gap-2">
                     <span class="w-8 h-0.5 bg-amber-400"></span> Informasi Umum
                 </h3>
                 <div class="grid sm:grid-cols-2 gap-6">
@@ -143,6 +173,20 @@ function previewLogo(input) {
         reader.onload = function(e) {
             const preview = document.getElementById('logoPreview');
             const placeholder = document.getElementById('logoPlaceholder');
+            preview.src = e.target.result;
+            preview.classList.remove('hidden');
+            if (placeholder) placeholder.classList.add('hidden');
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function previewFotoLurah(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const preview = document.getElementById('fotoLurahPreview');
+            const placeholder = document.getElementById('fotoLurahPlaceholder');
             preview.src = e.target.result;
             preview.classList.remove('hidden');
             if (placeholder) placeholder.classList.add('hidden');

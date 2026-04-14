@@ -13,7 +13,7 @@
         </span>
     </div>
     <form action="{{ route('admin.pengaduan.index') }}" method="GET" class="flex gap-3">
-        <input type="text" name="cari" value="{{ request('cari') }}" placeholder="Cari tiket/nama..." class="form-input w-48">
+        <input type="text" name="cari" value="{{ request('cari') }}" placeholder="Cari nama/kontak..." class="form-input w-48">
         <select name="status" class="form-input w-36" onchange="this.form.submit()">
             <option value="">Semua Status</option>
             <option value="baru" {{ request('status') == 'baru' ? 'selected' : '' }}>Baru</option>
@@ -30,23 +30,26 @@
         <table class="admin-table">
             <thead>
                 <tr>
-                    <th>No. Tiket</th>
+                    <th>No</th>
                     <th>Pelapor</th>
-                    <th>Subjek</th>
+                    <th>Kontak</th>
+                    <th>Isi Pengaduan</th>
                     <th>Status</th>
                     <th>Tanggal</th>
                     <th class="text-right">Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse($pengaduan as $item)
+                @forelse($pengaduan as $index => $item)
                     <tr>
-                        <td><span class="font-mono font-bold text-blue-800 text-xs">{{ $item->nomor_tiket }}</span></td>
+                        <td class="text-slate-400 font-medium">{{ $pengaduan->firstItem() + $index }}</td>
                         <td>
                             <p class="font-medium text-slate-700">{{ $item->nama_pelapor }}</p>
-                            <p class="text-xs text-slate-400">{{ $item->no_hp }}</p>
                         </td>
-                        <td><p class="truncate max-w-xs text-sm">{{ $item->subjek }}</p></td>
+                        <td>
+                            <p class="text-sm text-slate-600">{{ $item->kontak }}</p>
+                        </td>
+                        <td><p class="truncate max-w-xs text-sm text-slate-600">{{ Str::limit($item->isi_pengaduan, 50) }}</p></td>
                         <td><span class="badge {{ $item->status_badge }}">{{ $item->status_label }}</span></td>
                         <td class="text-sm text-slate-500">{{ $item->created_at->format('d/m/Y H:i') }}</td>
                         <td>
@@ -60,7 +63,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="6" class="text-center py-8 text-slate-400">Belum ada pengaduan.</td></tr>
+                    <tr><td colspan="7" class="text-center py-8 text-slate-400">Belum ada pengaduan.</td></tr>
                 @endforelse
             </tbody>
         </table>

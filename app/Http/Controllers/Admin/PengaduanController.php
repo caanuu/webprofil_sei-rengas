@@ -18,9 +18,9 @@ class PengaduanController extends Controller
 
         if ($request->filled('cari')) {
             $query->where(function ($q) use ($request) {
-                $q->where('nomor_tiket', 'like', '%' . $request->cari . '%')
-                  ->orWhere('nama_pelapor', 'like', '%' . $request->cari . '%')
-                  ->orWhere('subjek', 'like', '%' . $request->cari . '%');
+                $q->where('nama_pelapor', 'like', '%' . $request->cari . '%')
+                  ->orWhere('kontak', 'like', '%' . $request->cari . '%')
+                  ->orWhere('isi_pengaduan', 'like', '%' . $request->cari . '%');
             });
         }
 

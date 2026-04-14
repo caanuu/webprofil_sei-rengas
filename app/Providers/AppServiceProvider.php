@@ -27,10 +27,10 @@ class AppServiceProvider extends ServiceProvider
 
         View::composer('components.footer', function ($view) {
             $view->with('kontak', [
-                'alamat'           => ProfilKelurahan::getValue('alamat', 'Jl. Sei Rengas, Kec. Medan Area, Kota Medan, Sumatera Utara'),
-                'telepon'          => ProfilKelurahan::getValue('telepon', '(061) 7654321'),
-                'email'            => ProfilKelurahan::getValue('email', 'kelurahan.seirengas1@medan.go.id'),
-                'jam_operasional'  => ProfilKelurahan::getValue('jam_operasional', 'Sen - Jum: 08.00 - 15.00 WIB'),
+                'alamat' => ProfilKelurahan::getValue('alamat', 'Jl. Sei Rengas, Kec. Medan Area, Kota Medan, Sumatera Utara'),
+                'telepon' => ProfilKelurahan::getValue('telepon', '(061) 7654321'),
+                'email' => ProfilKelurahan::getValue('email', 'kelurahan.seirengas1@medan.go.id'),
+                'jam_operasional' => ProfilKelurahan::getValue('jam_operasional', 'Sen - Jum: 08.00 - 15.00 WIB'),
             ]);
 
             $view->with('socialMedia', SocialMedia::active()->ordered()->get());

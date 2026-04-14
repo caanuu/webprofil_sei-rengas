@@ -97,11 +97,11 @@
             @forelse($pengaduanTerbaru as $item)
                 <a href="{{ route('admin.pengaduan.show', $item) }}" class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 transition">
                     <div class="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <i class="fas fa-ticket-alt text-slate-600 text-sm"></i>
+                        <i class="fas fa-user text-slate-600 text-sm"></i>
                     </div>
                     <div class="min-w-0 flex-1">
-                        <p class="text-sm font-medium text-slate-700 truncate">{{ $item->subjek }}</p>
-                        <p class="text-xs text-slate-400">{{ $item->nomor_tiket }} · {{ $item->created_at->diffForHumans() }}</p>
+                        <p class="text-sm font-medium text-slate-700 truncate">{{ $item->nama_pelapor }}</p>
+                        <p class="text-xs text-slate-400">{{ $item->kontak }} · {{ $item->created_at->diffForHumans() }}</p>
                     </div>
                     <span class="badge {{ $item->status_badge }}">{{ $item->status_label }}</span>
                 </a>

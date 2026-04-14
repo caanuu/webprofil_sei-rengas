@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 
 class Pengaduan extends Model
 {
@@ -11,25 +10,11 @@ class Pengaduan extends Model
 
     protected $fillable = [
         'nama_pelapor',
-        'no_hp',
-        'email',
-        'subjek',
+        'kontak',
         'isi_pengaduan',
         'status',
         'tanggapan',
-        'nomor_tiket',
     ];
-
-    public static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($pengaduan) {
-            if (empty($pengaduan->nomor_tiket)) {
-                $pengaduan->nomor_tiket = 'TKT-' . strtoupper(Str::random(8));
-            }
-        });
-    }
 
     public function scopeBaru($query)
     {

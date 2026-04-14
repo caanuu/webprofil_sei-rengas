@@ -29,7 +29,7 @@
                 </h1>
 
                 <p class="text-lg text-slate-300 leading-relaxed mb-10 max-w-lg">
-                    Melayani masyarakat Kecamatan Medan Area, Kota Medan dengan pelayanan publik yang prima, transparan, dan berbasis teknologi.
+                    Melayani masyarakat Kecamatan Medan Kota, Kota Medan dengan pelayanan publik yang prima, transparan, dan berbasis teknologi.
                 </p>
 
                 <div class="flex flex-wrap gap-4">
@@ -49,16 +49,11 @@
                 {{-- Lurah Photo Card - spans 2 rows --}}
                 <div class="card-glass rounded-3xl overflow-hidden bg-white/10 border border-white/10 row-span-2 flex flex-col items-center justify-center p-6 text-center hover:scale-105 transition-transform duration-300 group relative">
                     <div class="absolute top-0 right-0 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl"></div>
-                    @if($lurah && $lurah->foto)
-                        @php
-                            $heroFoto = file_exists(public_path('storage/struktur/' . $lurah->foto))
-                                ? asset('storage/struktur/' . $lurah->foto)
-                                : asset('storage/' . $lurah->foto);
-                        @endphp
+                    @if(!empty($profil['foto_lurah']))
                         <div class="relative mb-4">
                             <div class="w-28 h-28 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 p-0.5 shadow-2xl shadow-amber-500/20">
-                                <img src="{{ $heroFoto }}"
-                                     alt="{{ $lurah->nama }}"
+                                <img src="{{ asset('storage/' . $profil['foto_lurah']) }}"
+                                     alt="{{ $profil['nama_lurah'] ?? 'Lurah' }}"
                                      class="w-full h-full rounded-full object-cover bg-slate-900">
                             </div>
                             <div class="absolute -bottom-1 -right-1 w-7 h-7 bg-emerald-500 rounded-full flex items-center justify-center shadow-lg border-2 border-slate-900">
@@ -119,7 +114,7 @@
                     ['icon' => 'fa-file-alt', 'title' => 'Surat Keterangan', 'desc' => 'Layanan administrasi', 'color' => 'from-blue-500 to-blue-700', 'link' => route('informasi.index', ['kategori' => 'layanan'])],
                     ['icon' => 'fa-bullhorn', 'title' => 'Pengumuman', 'desc' => 'Info terbaru', 'color' => 'from-amber-500 to-amber-700', 'link' => route('informasi.index', ['kategori' => 'pengumuman'])],
                     ['icon' => 'fa-headset', 'title' => 'Pengaduan', 'desc' => 'Lapor masalah', 'color' => 'from-emerald-500 to-emerald-700', 'link' => route('pengaduan.create')],
-                    ['icon' => 'fa-search', 'title' => 'Tracking', 'desc' => 'Cek status', 'color' => 'from-purple-500 to-purple-700', 'link' => route('pengaduan.tracking')],
+                    ['icon' => 'fa-building', 'title' => 'Profil', 'desc' => 'Info kelurahan', 'color' => 'from-purple-500 to-purple-700', 'link' => route('profil')],
                 ];
             @endphp
 
@@ -149,16 +144,11 @@
                         {{-- Glow effect --}}
                         <div class="absolute top-0 right-0 w-40 h-40 bg-amber-500/10 rounded-full blur-3xl"></div>
 
-                        @if($lurah && $lurah->foto)
-                            @php
-                                $homeFoto = file_exists(public_path('storage/struktur/' . $lurah->foto))
-                                    ? asset('storage/struktur/' . $lurah->foto)
-                                    : asset('storage/' . $lurah->foto);
-                            @endphp
+                        @if(!empty($profil['foto_lurah']))
                             <div class="relative inline-block mb-6">
                                 {{-- Outer ring --}}
                                 <div class="w-36 h-36 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 p-1 mx-auto shadow-2xl shadow-amber-500/30">
-                                    <img src="{{ $homeFoto }}"
+                                    <img src="{{ asset('storage/' . $profil['foto_lurah']) }}"
                                          alt="{{ $profil['nama_lurah'] ?? 'Lurah' }}"
                                          class="w-full h-full rounded-full object-cover bg-slate-800">
                                 </div>
@@ -317,16 +307,16 @@
             <div class="relative">
                 <h2 class="text-3xl lg:text-4xl font-display font-bold text-white mb-4">Ada Keluhan atau Pengaduan?</h2>
                 <p class="text-slate-300 mb-10 max-w-2xl mx-auto text-lg">
-                    Sampaikan pengaduan Anda secara online dan dapatkan nomor tiket untuk memantau status pengaduan secara real-time.
+                    Sampaikan keluhan atau pengaduan Anda secara online. Kami akan segera menindaklanjuti setiap pengaduan yang masuk.
                 </p>
                 <div class="flex flex-wrap justify-center gap-4">
                     <a href="{{ route('pengaduan.create') }}" class="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-bold rounded-2xl shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 hover:scale-105 transition-all duration-300">
                         <i class="fas fa-paper-plane"></i>
                         Kirim Pengaduan
                     </a>
-                    <a href="{{ route('pengaduan.tracking') }}" class="inline-flex items-center gap-2 px-8 py-4 bg-white/10 text-white font-semibold rounded-2xl border border-white/20 hover:bg-white/20 transition-all duration-300">
-                        <i class="fas fa-search"></i>
-                        Tracking Pengaduan
+                    <a href="{{ route('informasi.index') }}" class="inline-flex items-center gap-2 px-8 py-4 bg-white/10 text-white font-semibold rounded-2xl border border-white/20 hover:bg-white/20 transition-all duration-300">
+                        <i class="fas fa-info-circle"></i>
+                        Informasi Publik
                     </a>
                 </div>
             </div>

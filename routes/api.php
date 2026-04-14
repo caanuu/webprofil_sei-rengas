@@ -12,5 +12,5 @@ Route::prefix('v1')->group(function () {
     Route::get('/informasi', [InformasiApiController::class, 'index']);
     Route::get('/statistik', [StatistikApiController::class, 'index']);
     Route::post('/pengaduan', [PengaduanApiController::class, 'store']);
-    Route::get('/pengaduan/{nomor_tiket}', [PengaduanApiController::class, 'show']);
+    Route::get('/pengaduan/{pengaduan}', [PengaduanApiController::class, 'show']);
 });

@@ -15,6 +15,7 @@ class ProfilController extends Controller
             'nama_kelurahan', 'kecamatan', 'kota', 'provinsi',
             'alamat', 'telepon', 'email', 'kode_pos',
             'sejarah', 'visi', 'misi', 'sambutan_lurah', 'nama_lurah',
+            'foto_lurah',
         ];
         foreach ($keys as $key) {
             $profil[$key] = ProfilKelurahan::getValue($key);

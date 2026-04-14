@@ -16,38 +16,34 @@
 
         <div class="grid sm:grid-cols-2 gap-6 mb-8">
             <div>
-                <p class="text-xs text-slate-400 mb-1 font-medium uppercase tracking-wider">Nomor Tiket</p>
-                <p class="font-mono font-bold text-blue-800">{{ $pengaduan->nomor_tiket }}</p>
-            </div>
-            <div>
-                <p class="text-xs text-slate-400 mb-1 font-medium uppercase tracking-wider">Tanggal</p>
-                <p class="text-slate-700">{{ $pengaduan->created_at->format('d F Y, H:i WIB') }}</p>
-            </div>
-            <div>
                 <p class="text-xs text-slate-400 mb-1 font-medium uppercase tracking-wider">Nama Pelapor</p>
                 <p class="font-semibold text-slate-800">{{ $pengaduan->nama_pelapor }}</p>
             </div>
             <div>
-                <p class="text-xs text-slate-400 mb-1 font-medium uppercase tracking-wider">No. HP</p>
-                <p class="text-slate-700">{{ $pengaduan->no_hp }}</p>
+                <p class="text-xs text-slate-400 mb-1 font-medium uppercase tracking-wider">Email / No. Telepon</p>
+                <p class="text-slate-700">{{ $pengaduan->kontak }}</p>
             </div>
-            @if($pengaduan->email)
-            <div class="sm:col-span-2">
-                <p class="text-xs text-slate-400 mb-1 font-medium uppercase tracking-wider">Email</p>
-                <p class="text-slate-700">{{ $pengaduan->email }}</p>
+            <div>
+                <p class="text-xs text-slate-400 mb-1 font-medium uppercase tracking-wider">Tanggal</p>
+                <p class="text-slate-700">{{ $pengaduan->created_at->format('d F Y, H:i') }} WIB</p>
             </div>
-            @endif
-        </div>
-
-        <div class="mb-6">
-            <p class="text-xs text-slate-400 mb-2 font-medium uppercase tracking-wider">Subjek</p>
-            <p class="font-semibold text-slate-800 text-lg">{{ $pengaduan->subjek }}</p>
+            <div>
+                <p class="text-xs text-slate-400 mb-1 font-medium uppercase tracking-wider">Status</p>
+                <span class="badge {{ $pengaduan->status_badge }}">{{ $pengaduan->status_label }}</span>
+            </div>
         </div>
 
         <div>
             <p class="text-xs text-slate-400 mb-2 font-medium uppercase tracking-wider">Isi Pengaduan</p>
             <div class="bg-slate-50 rounded-xl p-5 text-slate-600 leading-relaxed">{{ $pengaduan->isi_pengaduan }}</div>
         </div>
+
+        @if($pengaduan->tanggapan)
+        <div class="mt-6 border-t border-slate-200 pt-6">
+            <p class="text-xs text-slate-400 mb-2 font-medium uppercase tracking-wider">Tanggapan</p>
+            <div class="bg-blue-50 rounded-xl p-5 text-blue-800 leading-relaxed border border-blue-100">{{ $pengaduan->tanggapan }}</div>
+        </div>
+        @endif
     </div>
 
     {{-- Response Form --}}

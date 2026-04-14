@@ -26,7 +26,6 @@ Route::get('/berita/{slug}', [BeritaController::class, 'show'])->name('berita.sh
 Route::get('/informasi', [InformasiController::class, 'index'])->name('informasi.index');
 Route::get('/pengaduan', [PengaduanController::class, 'create'])->name('pengaduan.create');
 Route::post('/pengaduan', [PengaduanController::class, 'store'])->name('pengaduan.store');
-Route::get('/pengaduan/tracking', [PengaduanController::class, 'tracking'])->name('pengaduan.tracking');
 
 // ==========================================
 // AUTH ROUTES
@@ -59,6 +58,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     // Profil Kelurahan
     Route::get('profil', [AdminProfilController::class, 'edit'])->name('admin.profil.edit');
     Route::put('profil', [AdminProfilController::class, 'update'])->name('admin.profil.update');
+    Route::delete('profil/foto-lurah', [AdminProfilController::class, 'deleteFotoLurah'])->name('admin.profil.delete-foto-lurah');
 
     // Sosial Media
     Route::get('social-media', [SocialMediaController::class, 'index'])->name('admin.social-media.index');

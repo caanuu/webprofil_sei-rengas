@@ -30,15 +30,6 @@
                 <a href="{{ route('pengaduan.create') }}" class="nav-link px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 {{ request()->routeIs('pengaduan.*') ? 'nav-active' : '' }}">
                     <i class="fas fa-headset mr-1.5"></i>Pengaduan
                 </a>
-                @auth
-                    <a href="{{ route('admin.dashboard') }}" class="ml-2 px-5 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 text-white text-sm font-semibold rounded-xl shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 hover:scale-105 transition-all duration-300">
-                        <i class="fas fa-tachometer-alt mr-1.5"></i>Dashboard
-                    </a>
-                @else
-                    <a href="{{ route('login') }}" class="ml-2 px-5 py-2.5 bg-gradient-to-r from-blue-800 to-blue-900 text-white text-sm font-semibold rounded-xl shadow-lg shadow-blue-900/25 hover:shadow-blue-900/40 hover:scale-105 transition-all duration-300">
-                        <i class="fas fa-sign-in-alt mr-1.5"></i>Login
-                    </a>
-                @endauth
             </div>
 
             {{-- Mobile Menu Button --}}
@@ -66,16 +57,6 @@
             <a href="{{ route('pengaduan.create') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-700 hover:bg-blue-50 hover:text-blue-900 transition {{ request()->routeIs('pengaduan.*') ? 'bg-blue-50 text-blue-900' : '' }}">
                 <i class="fas fa-headset w-5"></i>Pengaduan
             </a>
-            <hr class="my-2 border-slate-200">
-            @auth
-                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-amber-700 bg-amber-50 hover:bg-amber-100 transition">
-                    <i class="fas fa-tachometer-alt w-5"></i>Dashboard Admin
-                </a>
-            @else
-                <a href="{{ route('login') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-blue-900 bg-blue-50 hover:bg-blue-100 transition">
-                    <i class="fas fa-sign-in-alt w-5"></i>Login Admin
-                </a>
-            @endauth
         </div>
     </div>
 </nav>

@@ -12,9 +12,7 @@ class PengaduanApiController extends Controller
     {
         $validated = $request->validate([
             'nama_pelapor' => 'required|string|max:255',
-            'no_hp' => 'required|string|max:20',
-            'email' => 'nullable|email|max:255',
-            'subjek' => 'required|string|max:255',
+            'kontak' => 'required|string|max:255',
             'isi_pengaduan' => 'required|string|min:20',
         ]);
 
@@ -24,21 +22,21 @@ class PengaduanApiController extends Controller
             'status' => 'success',
             'message' => 'Pengaduan berhasil dikirim.',
             'data' => [
-                'nomor_tiket' => $pengaduan->nomor_tiket,
+                'id' => $pengaduan->id,
                 'created_at' => $pengaduan->created_at,
             ],
         ], 201);
     }
 
-    public function show(string $nomorTiket)
+    public function show(Pengaduan $pengaduan)
     {
-        $pengaduan = Pengaduan::where('nomor_tiket', $nomorTiket)->firstOrFail();
-
         return response()->json([
             'status' => 'success',
             'data' => [
-                'nomor_tiket' => $pengaduan->nomor_tiket,
-                'subjek' => $pengaduan->subjek,
+                'id' => $pengaduan->id,
+                'nama_pelapor' => $pengaduan->nama_pelapor,
+                'kontak' => $pengaduan->kontak,
+                'isi_pengaduan' => $pengaduan->isi_pengaduan,
                 'status' => $pengaduan->status,
                 'status_label' => $pengaduan->status_label,
                 'tanggapan' => $pengaduan->tanggapan,

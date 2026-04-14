@@ -18,7 +18,7 @@ class HomeController extends Controller
             ->get();
 
         $profil = [];
-        $keys = ['nama_kelurahan', 'sambutan_lurah', 'nama_lurah', 'visi', 'alamat', 'telepon', 'email'];
+        $keys = ['nama_kelurahan', 'sambutan_lurah', 'nama_lurah', 'visi', 'alamat', 'telepon', 'email', 'foto_lurah'];
         foreach ($keys as $key) {
             $profil[$key] = ProfilKelurahan::getValue($key);
         }
