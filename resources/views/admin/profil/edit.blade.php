@@ -16,9 +16,10 @@
                     <span class="w-8 h-0.5 bg-amber-400"></span> Logo Kelurahan
                 </h3>
                 <div class="flex items-center gap-6">
-                    <div class="shrink-0">
+                    <div class="shrink-0 text-center">
                         @if(!empty($profil['logo']))
                             <img src="{{ asset('storage/' . $profil['logo']) }}" alt="Logo" class="w-24 h-24 rounded-2xl object-cover border-2 border-slate-200 shadow-sm" id="logoPreview">
+                            <button type="button" onclick="if(confirm('Yakin ingin menghapus logo kelurahan?')) document.getElementById('delete-logo-form').submit();" class="text-xs text-red-500 hover:text-red-700 font-medium transition mt-2"><i class="fas fa-trash-alt mr-1"></i>Hapus Logo</button>
                         @else
                             <div class="w-24 h-24 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center shadow-sm" id="logoPlaceholder">
                                 <i class="fas fa-landmark text-white text-3xl"></i>
@@ -45,10 +46,7 @@
                     <div class="shrink-0 text-center">
                         @if(!empty($profil['foto_lurah']))
                             <img src="{{ asset('storage/' . $profil['foto_lurah']) }}" alt="Foto Lurah" class="w-28 h-28 rounded-full object-cover border-4 border-amber-200 shadow-lg" id="fotoLurahPreview">
-                            <form action="{{ route('admin.profil.delete-foto-lurah') }}" method="POST" class="mt-2" onsubmit="return confirm('Yakin ingin menghapus foto Lurah?')">
-                                @csrf @method('DELETE')
-                                <button type="submit" class="text-xs text-red-500 hover:text-red-700 font-medium transition"><i class="fas fa-trash-alt mr-1"></i>Hapus Foto</button>
-                            </form>
+                            <button type="button" onclick="if(confirm('Yakin ingin menghapus foto Lurah?')) document.getElementById('delete-foto-lurah-form').submit();" class="text-xs text-red-500 hover:text-red-700 font-medium transition mt-2"><i class="fas fa-trash-alt mr-1"></i>Hapus Foto</button>
                         @else
                             <div class="w-28 h-28 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center shadow-lg" id="fotoLurahPlaceholder">
                                 <i class="fas fa-user-tie text-white text-4xl"></i>
@@ -161,6 +159,18 @@
                 <button type="submit" class="btn btn-success px-8"><i class="fas fa-save"></i> Simpan Perubahan</button>
             </div>
         </form>
+
+        {{-- Hidden forms for delete actions (outside main form to avoid nesting) --}}
+        @if(!empty($profil['logo']))
+        <form id="delete-logo-form" action="{{ route('admin.profil.delete-logo') }}" method="POST" class="hidden">
+            @csrf @method('DELETE')
+        </form>
+        @endif
+        @if(!empty($profil['foto_lurah']))
+        <form id="delete-foto-lurah-form" action="{{ route('admin.profil.delete-foto-lurah') }}" method="POST" class="hidden">
+            @csrf @method('DELETE')
+        </form>
+        @endif
     </div>
 </div>
 @endsection

@@ -87,4 +87,16 @@ class ProfilController extends Controller
         return redirect()->route('admin.profil.edit')
             ->with('success', 'Foto Lurah berhasil dihapus!');
     }
+
+    public function deleteLogo()
+    {
+        $logo = ProfilKelurahan::getValue('logo');
+        if ($logo && Storage::disk('public')->exists($logo)) {
+            Storage::disk('public')->delete($logo);
+        }
+        ProfilKelurahan::setValue('logo', null);
+
+        return redirect()->route('admin.profil.edit')
+            ->with('success', 'Logo Kelurahan berhasil dihapus!');
+    }
 }

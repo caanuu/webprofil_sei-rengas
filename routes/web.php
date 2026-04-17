@@ -59,6 +59,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('profil', [AdminProfilController::class, 'edit'])->name('admin.profil.edit');
     Route::put('profil', [AdminProfilController::class, 'update'])->name('admin.profil.update');
     Route::delete('profil/foto-lurah', [AdminProfilController::class, 'deleteFotoLurah'])->name('admin.profil.delete-foto-lurah');
+    Route::delete('profil/logo', [AdminProfilController::class, 'deleteLogo'])->name('admin.profil.delete-logo');
 
     // Sosial Media
     Route::get('social-media', [SocialMediaController::class, 'index'])->name('admin.social-media.index');
