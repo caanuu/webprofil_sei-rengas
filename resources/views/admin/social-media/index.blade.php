@@ -22,7 +22,7 @@
 
                     {{-- Left: Icon + Name + Toggle --}}
                     <div class="flex items-center gap-3 sm:w-56 shrink-0">
-                        <div class="w-10 h-10 rounded-lg flex items-center justify-center text-white shrink-0" style="background-color: {{ $social->hover_color }}">
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center text-white shrink-0" @style(["background-color: {$social->hover_color}"])>
                             <i class="{{ $social->icon }} text-lg"></i>
                         </div>
                         <span class="font-semibold text-slate-700 text-sm">{{ $social->platform }}</span>

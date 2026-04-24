@@ -7,6 +7,7 @@ use App\Models\Berita;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class BeritaController extends Controller
 {
@@ -47,7 +48,7 @@ class BeritaController extends Controller
             'gambar.max' => 'Ukuran gambar maksimal 2MB.',
         ]);
 
-        $validated['user_id'] = auth()->id();
+        $validated['user_id'] = Auth::id();
         $validated['is_published'] = $request->boolean('is_published');
         $validated['slug'] = Str::slug($validated['judul']) . '-' . Str::random(5);
 
