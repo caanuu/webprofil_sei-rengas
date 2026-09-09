@@ -48,7 +48,7 @@ class AppServiceProvider extends ServiceProvider
             // Table might not exist yet during migrations
         }
 
-        // Default fallback to pp.jpg
-        return asset('storage/pp.jpg');
+        // Default fallback to clean official SVG emblem
+        return asset('images/logo.svg');
     }
 }

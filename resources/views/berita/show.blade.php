@@ -2,67 +2,92 @@
 @section('title', $berita->judul . ' - Kantor Lurah Sei Rengas I')
 
 @section('content')
-<section class="relative py-20 bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 -mt-20 pt-32 overflow-hidden">
-    <div class="absolute inset-0 hero-pattern"></div>
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <span class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur rounded-full text-sm mb-6 border border-white/10 {{ $berita->kategori === 'kegiatan' ? 'text-amber-300' : 'text-blue-300' }}">
+{{-- ==========================================
+    POST HEADER — Linear Style
+========================================== --}}
+<section class="relative min-h-[35vh] flex items-center bg-[#090d16] bg-grid-subtle -mt-20 pt-32 pb-16 overflow-hidden">
+    <div class="absolute inset-0 hero-pattern pointer-events-none"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="glow-badge mb-4 {{ $berita->kategori === 'kegiatan' ? 'text-amber-300 border-amber-500/20 bg-amber-500/10' : 'text-blue-300 border-blue-500/20 bg-blue-500/10' }}">
             <i class="fas {{ $berita->kategori === 'kegiatan' ? 'fa-calendar-check' : 'fa-newspaper' }}"></i>
-            {{ ucfirst($berita->kategori) }}
-        </span>
-        <h1 class="text-3xl lg:text-4xl font-display font-bold text-white mb-4 max-w-4xl mx-auto">{{ $berita->judul }}</h1>
-        <div class="flex items-center justify-center gap-4 text-slate-400 text-sm">
-            <span><i class="fas fa-calendar mr-1"></i>{{ $berita->tanggal_publikasi ? $berita->tanggal_publikasi->format('d F Y') : $berita->created_at->format('d F Y') }}</span>
-            <span><i class="fas fa-user mr-1"></i>{{ $berita->user->name ?? 'Admin' }}</span>
+            <span>{{ ucfirst($berita->kategori) }} Kelurahan</span>
         </div>
-    </div>
-    <div class="absolute bottom-0 left-0 right-0">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 80" class="w-full text-white"><path fill="currentColor" d="M0,40 C360,80 720,0 1080,40 C1260,60 1380,30 1440,40 L1440,80 L0,80 Z"></path></svg>
+
+        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white mb-4 leading-snug">
+            {{ $berita->judul }}
+        </h1>
+
+        <div class="flex items-center justify-center flex-wrap gap-4 text-xs text-slate-300">
+            <span class="inline-flex items-center gap-1.5">
+                <i class="fas fa-calendar-alt text-amber-400"></i>
+                {{ $berita->tanggal_publikasi ? $berita->tanggal_publikasi->format('d F Y') : $berita->created_at->format('d F Y') }}
+            </span>
+            <span>&bull;</span>
+            <span class="inline-flex items-center gap-1.5">
+                <i class="fas fa-user-circle text-blue-400"></i>
+                {{ $berita->user->name ?? 'Aparatur Kelurahan' }}
+            </span>
+        </div>
     </div>
 </section>
 
-<section class="py-16 bg-white">
+{{-- ==========================================
+    POST CONTENT
+========================================== --}}
+<section class="py-14 bg-slate-50">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        @if($berita->gambar)
-            <div class="mb-10 rounded-2xl overflow-hidden shadow-xl">
-                <img src="{{ asset('storage/' . $berita->gambar) }}" alt="{{ $berita->judul }}" class="w-full h-auto max-h-[500px] object-cover">
-            </div>
-        @endif
+        
+        <div class="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200/80 shadow-md">
+            {{-- Feature Image --}}
+            @if($berita->gambar && file_exists(public_path('storage/' . $berita->gambar)))
+                <div class="mb-8 rounded-2xl overflow-hidden shadow-lg border border-slate-100">
+                    <img src="{{ asset('storage/' . $berita->gambar) }}" alt="{{ $berita->judul }}" class="w-full h-auto max-h-[480px] object-cover">
+                </div>
+            @endif
 
-        <article class="prose-content text-base leading-relaxed">
-            {!! $berita->konten !!}
-        </article>
+            {{-- Main Article --}}
+            <article class="prose-content text-slate-700 text-base leading-relaxed">
+                {!! $berita->konten !!}
+            </article>
 
-        {{-- Share --}}
-        <div class="mt-12 pt-8 border-t border-slate-200">
-            <div class="flex items-center justify-between flex-wrap gap-4">
-                <a href="{{ route('berita.index') }}" class="btn btn-outline">
-                    <i class="fas fa-arrow-left"></i> Kembali ke Daftar Berita
+            {{-- Share & Return Bar --}}
+            <div class="mt-10 pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <a href="{{ route('berita.index') }}" class="btn-primary !px-5 !py-2.5 text-xs">
+                    <i class="fas fa-arrow-left text-xs"></i>
+                    <span>Kembali ke Semua Berita</span>
                 </a>
+                <div class="text-xs text-slate-500 flex items-center gap-2">
+                    <span>Bagikan:</span>
+                    <a href="https://api.whatsapp.com/send?text={{ urlencode($berita->judul . ' - ' . url()->current()) }}" target="_blank" class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center hover:bg-emerald-600 hover:text-white transition-colors">
+                        <i class="fab fa-whatsapp text-sm"></i>
+                    </a>
+                </div>
             </div>
         </div>
+
     </div>
 </section>
 
 {{-- Related News --}}
-@if($beritaLainnya->count() > 0)
-<section class="py-16 bg-gray-50">
+@if(isset($beritaLainnya) && $beritaLainnya->count() > 0)
+<section class="py-14 bg-white border-t border-slate-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-2xl font-display font-bold text-slate-900 mb-8">Berita Lainnya</h2>
-        <div class="grid md:grid-cols-3 gap-8">
+        <h3 class="text-2xl font-extrabold text-slate-900 mb-8 tracking-tight">Berita Terkait Lainnya</h3>
+        <div class="grid md:grid-cols-3 gap-6">
             @foreach($beritaLainnya as $item)
-                <article class="bg-white rounded-2xl overflow-hidden shadow-lg card-hover group">
-                    <div class="relative h-40 bg-gradient-to-br from-blue-900 to-blue-950 overflow-hidden">
-                        @if($item->gambar)
-                            <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->judul }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                        @else
-                            <div class="w-full h-full flex items-center justify-center"><i class="fas fa-newspaper text-3xl text-white/30"></i></div>
-                        @endif
+                <article class="bg-slate-50 rounded-2xl overflow-hidden border border-slate-200/80 p-5 hover:bg-white hover:shadow-lg transition-all duration-300 flex flex-col justify-between">
+                    <div>
+                        <div class="text-xs text-slate-400 mb-2">
+                            {{ $item->tanggal_publikasi ? $item->tanggal_publikasi->format('d M Y') : $item->created_at->format('d M Y') }}
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-900 mb-2 line-clamp-2">{{ $item->judul }}</h4>
                     </div>
-                    <div class="p-5">
-                        <p class="text-xs text-slate-400 mb-2">{{ $item->tanggal_publikasi ? $item->tanggal_publikasi->format('d M Y') : '' }}</p>
-                        <h3 class="font-bold text-slate-800 mb-2 line-clamp-2 group-hover:text-blue-800 transition-colors">{{ $item->judul }}</h3>
-                        <a href="{{ route('berita.show', $item->slug) }}" class="text-sm font-semibold text-blue-800 hover:text-amber-600">Baca &rarr;</a>
-                    </div>
+                    <a href="{{ route('berita.show', $item->slug) }}" class="text-xs font-bold text-blue-600 hover:text-blue-800 mt-3 inline-flex items-center gap-1">
+                        <span>Baca Berita</span>
+                        <i class="fas fa-arrow-right text-[10px]"></i>
+                    </a>
                 </article>
             @endforeach
         </div>
